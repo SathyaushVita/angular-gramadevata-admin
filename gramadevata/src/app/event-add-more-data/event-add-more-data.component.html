@@ -1,0 +1,75 @@
+<!-- temple-add-more.component.html -->
+
+    <div class="container  " style="margin-top: 100px;">
+
+
+
+  <!-- No Data -->
+  <div *ngIf="templeData.length === 0" class="text-center text-muted">
+    No temple details available
+  </div>
+
+  <!-- Temple Rows -->
+  <div *ngFor="let temple of templeData" class="card mb-2 shadow-sm mt-5">
+
+    <div class="row g-0 align-items-stretch">
+
+      <!-- LEFT : Image -->
+<div class="col-md-4">
+  <div class="w-100 overflow-hidden rounded" style="height: 220px;">
+    <img
+      *ngIf="temple.image_location?.length"
+      [src]="temple.image_location[0]"
+      alt="Temple Image"
+      class="img-fluid w-100 h-100 object-fit-cover"
+    />
+  </div>
+</div>
+
+
+      <!-- RIGHT : Details -->
+      <div class="col-md-8">
+        <div class="card-body">
+
+          <!-- Description (3 lines only) -->
+          <p class="text-muted temple-desc mb-2">
+            {{ temple.desc || 'No description available for this temple.' }}
+          </p>
+
+          <p class="mb-1"><strong>Area:</strong> {{ temple.temple_area }}</p>
+          <p class="mb-1"><strong>Timings:</strong> {{ temple.temple_timings }}</p>
+          <p class="mb-1"><strong>Construction Year:</strong> {{ temple.construction_year }}</p>
+          <p class="mb-1"><strong>Other Deity:</strong> {{ temple.other_diety }}</p>
+
+          <div class="mt-2">
+            <a *ngIf="temple.temple_website"
+               [href]="temple.temple_website"
+               target="_blank"
+               class="btn btn-sm btn-outline-primary me-2">
+              Website
+            </a>
+
+            <a *ngIf="temple.map_location"
+               [href]="temple.map_location"
+               target="_blank"
+               class="btn btn-sm btn-outline-success">
+              Map
+            </a>
+          </div>
+
+          <button
+  class="btn btn-sm btn-warning"
+  (click)="mergeevents(temple.event_id)">
+  Merge
+</button>
+
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+

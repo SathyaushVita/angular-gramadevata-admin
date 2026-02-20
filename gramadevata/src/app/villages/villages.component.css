@@ -1,0 +1,199 @@
+.hide-scrollbar {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;  
+  }
+
+  .temple-btn {
+  border-radius: 30px;
+  padding: 10px 14px;
+  border: 1px solid #eee;
+  background: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.temple-btn:hover {
+  background: #ffe8cc;
+}
+
+.temple-btn.active {
+  background: #ff9800;
+  color: #000;
+  font-weight: 600;
+}
+
+.card {
+  border-radius: 16px;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* =========================
+   GLOBAL ADMIN LOOK
+========================= */
+.admin-bg {
+  background: #f6f8fc;
+}
+
+/* Remove ugly scrollbars */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+/* =========================
+   FILTER CARD
+========================= */
+.card {
+  border-radius: 14px;
+  border: none;
+}
+
+.card-header {
+  background: #ffffff;
+  border-bottom: 1px solid #eef1f6;
+}
+
+.card-body {
+  background: #ffffff;
+}
+
+.nz-select {
+  width: 100%;
+}
+
+/* Clear (×) buttons */
+.clear-btn {
+  position: absolute;
+  top: 9px;
+  right: 12px;
+  background: #eee;
+  border-radius: 50%;
+  border: none;
+  width: 22px;
+  height: 22px;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* =========================
+   LEFT TEMPLE LIST
+========================= */
+.temple-scroll {
+  max-height: calc(100vh - 260px);
+  overflow-y: auto;
+}
+
+.temple-list-btn {
+  width: 100%;
+  border: none;
+  background: #f8f9ff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  transition: all 0.25s ease;
+  text-align: left;
+}
+
+.temple-list-btn:hover {
+  background: #ffe6c7;
+}
+
+.temple-list-btn.active {
+  background: linear-gradient(135deg, #ff9800, #ffb74d);
+  color: #000;
+  font-weight: 600;
+}
+
+.temple-thumb {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+/* =========================
+   CENTER DETAILS PANEL
+========================= */
+.img-fluid {
+  max-height: 280px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.list-group-item {
+  font-size: 14px;
+  padding: 8px 12px;
+  background: transparent;
+}
+
+/* Empty state */
+.empty-state {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9aa0b4;
+  font-size: 16px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn-warning {
+  background: linear-gradient(135deg, #ff9800, #ffb74d);
+  border: none;
+  color: #000;
+  font-weight: 600;
+}
+
+.btn-warning:hover {
+  opacity: 0.9;
+}
+
+/* =========================
+   RESPONSIVE FIXES
+========================= */
+@media (max-width: 992px) {
+  .temple-scroll {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .card {
+    border-radius: 10px;
+  }
+
+  .temple-list-btn {
+    font-size: 13px;
+    padding: 8px;
+  }
+}
+.temple-btn {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  transition: 0.3s;
+  text-align: left;
+}
+
+/* Only Selected One */
+.selected-temple {
+  background: linear-gradient(135deg, #ff7a18, #ffb347);
+  color: #fff;
+  border: none;
+}

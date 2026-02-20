@@ -1,0 +1,53 @@
+.section-heading {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.event-scroll {
+  max-height: 680px;
+}
+
+.event-btn {
+  padding: 12px 15px;
+  border-radius: 14px;
+  border: 1px solid #eee;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.event-btn:hover {
+  background: #f8f9fa;
+  transform: translateX(4px);
+}
+
+.event-img {
+  object-fit: cover;
+  border: 2px solid #f1f1f1;
+}
+
+.event-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.event-time {
+  font-size: 12px;
+  color: #888;
+}
+
+/* 🔥 Selected Event */
+.selected-event {
+  background: linear-gradient(135deg, #ff7a18, #ffb347);
+  color: #fff;
+  border: none;
+  box-shadow: 0 6px 18px rgba(255, 122, 24, 0.3);
+}
+
+.selected-event .event-time {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.selected-event img {
+  border: 2px solid #ffffff;
+}

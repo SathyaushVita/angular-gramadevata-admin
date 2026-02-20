@@ -1,0 +1,272 @@
+<div class="container-fluid my-4 p-4 border rounded " style="min-height: 100vh; display: flex; flex-direction: column;">
+  <h4 class="mt-5"></h4>
+
+    <div class="row">
+  
+    
+      <!-- <div class="col-md-3 border-end d-flex flex-column">
+         <h5 class="d-flex justify-content-between align-items-center">
+        <span>Past Events</span>
+        <button (click)="addEvent()"
+                class="btn btn-sm"
+                style="border: 1px solid rgb(238, 141, 51); background-color: rgb(238, 141, 51); border-radius: 20px; color: black; font-size: 14px;">
+          Add Event
+        </button>
+      </h5>
+        <hr>
+        <div class="overflow-auto" style="max-height: 680px;">
+          <ul class="list-unstyled">
+            <li *ngFor="let event of events" class="mb-2">
+              <button class="btn w-100 d-flex align-items-center"
+              [ngClass]="{
+                'btn-outline-primary': selectedEvent !== event,
+                'btn-primary': selectedEvent === event
+              }"
+                (click)="onEventClick(event)"
+              >
+                <img
+                  [src]="event.image_location"
+                  alt="temple logo"
+                  width="30"
+                  height="30"
+                  class="me-2 rounded-circle"
+                />
+                {{ event.name }}
+              </button>
+            </li>
+
+            
+          
+            <ng-template #noEvents>
+              <div class="alert alert-info" role="alert">
+                No inactive events found.
+              </div>
+            </ng-template>
+          </ul>
+      </div>
+        
+      </div>
+  
+  
+      <div class="col-md-3 border-end d-flex flex-column">
+        <h5>Upcoming Events</h5>
+        <hr>
+        <div class="overflow-auto" style="max-height: 680px;">
+          <ul class="list-unstyled">
+            <li *ngFor="let event of upcomingevents" class="mb-2">
+              <button class="btn w-100 d-flex align-items-center"
+              [ngClass]="{
+                'btn-outline-primary': selectedEvent !== event,
+                'btn-primary': selectedEvent === event
+              }"
+                (click)="onEventClick(event)"
+              >
+                <img
+                  [src]="event.image_location"
+                  alt="temple logo"
+                  width="30"
+                  height="30"
+                  class="me-2 rounded-circle"
+                />
+                {{ event.name }}
+              </button>
+            </li>
+
+            
+          
+            <ng-template #noEvents>
+              <div class="alert alert-info" role="alert">
+                No inactive events found.
+              </div>
+            </ng-template>
+          </ul>
+      </div>
+        
+        
+      </div>
+
+            <div class="col-md-3 border-end d-flex flex-column">
+        <h5>Ongoing Events</h5>
+        <hr>
+        <div class="overflow-auto" style="max-height: 680px;">
+          <ul class="list-unstyled">
+            <li *ngFor="let event of ongoingevents" class="mb-2">
+              <button class="btn w-100 d-flex align-items-center"
+              [ngClass]="{
+                'btn-outline-primary': selectedEvent !== event,
+                'btn-primary': selectedEvent === event
+              }"
+                (click)="onEventClick(event)"
+              >
+                <img
+                  [src]="event.image_location"
+                  alt="temple logo"
+                  width="30"
+                  height="30"
+                  class="me-2 rounded-circle"
+                />
+                {{ event.name }}
+              </button>
+            </li>
+
+            
+          
+            <ng-template #noEvents>
+              <div class="alert alert-info" role="alert">
+                No inactive events found.
+              </div>
+            </ng-template>
+          </ul>
+      </div>
+        
+        
+      </div> -->
+  
+        <div class="col-md-3 border-end d-flex flex-column">
+    <h5 class="section-heading">Past Events</h5>
+    <hr>
+
+    <div class="overflow-auto event-scroll">
+      <ul class="list-unstyled">
+        <li *ngFor="let event of events" class="mb-2">
+
+          <button
+            class="event-btn w-100 d-flex align-items-center"
+            [ngClass]="{ 'selected-event': selectedEvent?._id === event._id }"
+            (click)="onEventClick(event)"
+          >
+
+            <img
+              [src]="event.image_location || 'assets/default-event.jpg'"
+              width="40"
+              height="40"
+              class="me-3 rounded-circle event-img"
+            />
+
+            <div class="text-start flex-grow-1">
+              <div class="event-name">{{ event.name }}</div>
+            <small class="text-muted">
+              {{ event.relative_time || '—' }}
+            </small>
+            </div>
+
+          </button>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Upcoming Events -->
+  <div class="col-md-3 border-end d-flex flex-column">
+    <h5 class="section-heading">Upcoming Events</h5>
+    <hr>
+
+    <div class="overflow-auto event-scroll">
+      <ul class="list-unstyled">
+        <li *ngFor="let event of upcomingevents" class="mb-2">
+
+          <button
+            class="event-btn w-100 d-flex align-items-center"
+            [ngClass]="{ 'selected-event': selectedEvent?._id === event._id }"
+            (click)="onEventClick(event)"
+          >
+
+            <img
+              [src]="event.image_location || 'assets/default-event.jpg'"
+              width="40"
+              height="40"
+              class="me-3 rounded-circle event-img"
+            />
+
+            <div class="text-start flex-grow-1">
+              <div class="event-name">{{ event.name }}</div>
+            <small class="text-muted">
+              {{ event.relative_time || '—' }}
+            </small>
+            </div>
+
+          </button>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Ongoing Events -->
+  <div class="col-md-3 d-flex flex-column">
+    <h5 class="section-heading">Ongoing Events</h5>
+    <hr>
+
+    <div class="overflow-auto event-scroll">
+      <ul class="list-unstyled">
+        <li *ngFor="let event of ongoingevents" class="mb-2">
+
+          <button
+            class="event-btn w-100 d-flex align-items-center"
+            [ngClass]="{ 'selected-event': selectedEvent?._id === event._id }"
+            (click)="onEventClick(event)"
+          >
+
+            <img
+              [src]="event.image_location || 'assets/default-event.jpg'"
+              width="40"
+              height="40"
+              class="me-3 rounded-circle event-img"
+            />
+
+            <div class="text-start flex-grow-1">
+              <div class="event-name">{{ event.name }}</div>
+            <small class="text-muted">
+              {{ event.relative_time || '—' }}
+            </small>
+            </div>
+
+          </button>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+      <div class="col-md-3 border-end d-flex flex-column">
+        <div class="overflow-auto" style="max-height: 780px;">
+          <div class="mt-4" *ngIf="selectedEvent">
+
+            <div class="card d-flex justify-content-center">
+             
+                         <div class="d-flex justify-content-center">
+              <img [src]="selectedEvent.image_location[0]" [alt]="selectedEvent.name"
+                class="img-fluid rounded" style="max-width: 100%; height: auto; max-height: 300px;">
+            </div>
+              <!-- <img [src]="selectedEvent.image_location" class="card-img-top" alt="{{ selectedEvent.name }}" style="height: 300px; width: 300px; "> -->
+              <div class="card-body">
+                <h6 class="text-center">{{ selectedEvent.name }}</h6>
+                <p><strong>Contact Name:</strong> {{ selectedEvent.contact_name }}</p>
+                <p><strong>Contact Number:</strong> {{ selectedEvent.contact_phone }}</p>
+                <p><strong>Contact Email:</strong> {{ selectedEvent.contact_email }}</p>
+                <p><strong>Start Date:</strong> {{ selectedEvent.start_date }}</p>
+                <p><strong>Start Time:</strong> {{ selectedEvent.start_time }}</p>
+                <p><strong>End Date:</strong> {{ selectedEvent.end_date }}</p>
+                <p><strong>End Time:</strong> {{ selectedEvent.end_time }}</p>
+                <p><strong>Map Location:</strong> {{ selectedEvent.map_location }}</p>
+                <p><strong>Address:</strong> {{ selectedEvent.address }}</p>
+                <p><strong>Description:</strong> {{ selectedEvent.desc }}</p>
+                <!-- Add more event details here as needed -->
+                <!-- <button class="btn btn-secondary mt-2" (click)="navigateeditevent(selectedEvent._id)">Edit</button> -->
+
+                <div class="text-center">
+                  <button (click)="navigateeditevent(selectedEvent._id)"
+                    class="btn"
+                    style="border: 1px solid rgb(238, 141, 51); background-color: rgb(238, 141, 51); border-radius: 25px; color: black; width: 130px; height: 50px; font-size: 18px;">
+                    Edit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  
+    </div>
+  </div>

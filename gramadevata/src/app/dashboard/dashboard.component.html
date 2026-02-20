@@ -1,0 +1,475 @@
+<!-- 
+
+ <div class="container-fluid dashboard-wrapper">
+
+  <div class="text-center mb-4">
+    <h3 class="fw-bold text-gradient">User Dashboard</h3>
+    <p class="text-muted small">Overview & detailed user information</p>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2"
+      *ngFor="let card of [
+        {label:'Total', value:userCount?.total, icon:'bi-people', cls:'bg-total'},
+        {label:'Members', value:userCount?.members, icon:'bi-person-check', cls:'bg-member'},
+        {label:'Non Members', value:userCount?.non_members, icon:'bi-person-x', cls:'bg-nonmember'},
+        {label:'Male', value:userCount?.male, icon:'bi-gender-male', cls:'bg-male'},
+        {label:'Female', value:userCount?.female, icon:'bi-gender-female', cls:'bg-female'},
+        {label:'Active', value:userCount?.active, icon:'bi-check-circle', cls:'bg-active'},
+        {label:'Inactive', value:userCount?.inactive, icon:'bi-x-circle', cls:'bg-inactive'}
+      ]">
+
+        <div class="stat-card {{card.cls}}"
+     (click)="
+     card.label === 'Total' ? usersactiveorinactive('all') :
+       card.label === 'Active' ? usersactiveorinactive('active') :
+       card.label === 'Inactive' ? usersactiveorinactive('inactive') :
+       loadAllUsers()
+     ">
+
+        <div class="icon-box">
+          <i class="bi {{card.icon}}"></i>
+        </div>
+        <h4>{{ card.value || 0 }}</h4>
+        <p>{{ card.label }}</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end mb-3">
+    <div class="search-box">
+      <i class="bi bi-search"></i>
+      <input
+        type="text"
+        placeholder="Search users..."
+        [formControl]="searchControl" />
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <div class="col-lg-7 col-xl-8">
+      <div class="users-scroll-container">
+
+        <div class="row g-3">
+
+          <div class="col-12 col-sm-6 col-md-4 col-xl-3"
+               *ngFor="let u of users"
+               (click)="viewProfile(u)">
+
+            <div class="user-card">
+
+              <div class="avatar-wrapper">
+                <img [src]="u.profile_pic || 'assets/profile1.webp'">
+              </div>
+
+              <h6>{{ u.full_name || 'Unnamed User' }}</h6>
+
+              <span class="badge"
+                [ngClass]="u.is_member === 'true' ? 'bg-success' : 'bg-secondary'">
+                {{ u.is_member === 'true' ? 'Member' : 'Non-Member' }}
+              </span>
+
+              <div class="user-meta">
+                <p>{{ u.gender }}</p>
+                <p> {{u.contact_number}}</p>
+                <p>{{ u.email }}</p>
+                <small class="text-muted">
+                  {{ u.last_seen }}
+                </small>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-lg-5 col-xl-4">
+
+
+<div class="detail-card profile-scroll shadow-lg" *ngIf="selectedUser">
+
+  <div class="profile-header text-center">
+    <div class="profile-img-wrapper">
+      <img [src]="selectedUser.profile_pic || 'assets/profile1.webp'" />
+    </div>
+
+    <h4 class="mt-3 mb-1">{{ selectedUser.full_name || 'Unnamed User' }}</h4>
+
+    <span class="badge px-3 py-2"
+          [ngClass]="selectedUser.is_member === 'true' ? 'bg-success' : 'bg-secondary'">
+      {{ selectedUser.is_member === 'true' ? 'Member' : 'Non-Member' }}
+    </span>
+
+    <p class="small text-muted mt-2">
+      {{ selectedUser.gender }} • {{ selectedUser.marital_status || '—' }}
+    </p>
+  </div>
+
+  <div class="section">
+    <h6 class="section-title">Basic Information</h6>
+
+    <div class="info-row">
+      <span>📞 Contact</span>
+      <strong>{{ selectedUser.contact_number || '—' }}</strong>
+    </div>
+
+    <div class="info-row">
+      <span>📧 Email</span>
+      <strong>{{ selectedUser.email || '—' }}</strong>
+    </div>
+
+    <div class="info-row">
+      <span>🧬 Gotram</span>
+      <strong>{{ selectedUser.gotram || '—' }}</strong>
+    </div>
+
+    <div class="info-row">
+      <span>🛕 Temples</span>
+      <strong>{{ selectedUser.temples_count || 0 }}</strong>
+    </div>
+
+    <div class="info-row">
+      <span>🆔 User ID</span>
+      <strong>{{ selectedUser.id || '—' }}</strong>
+    </div>
+  </div>
+
+  <div class="section">
+    <h6 class="section-title">Family Details</h6>
+
+    <div class="info-row"><span>👨 Father</span><strong>{{ selectedUser.father_name || '—' }}</strong></div>
+    <div class="info-row"><span>👩 Mother</span><strong>{{ selectedUser.mother_name || '—' }}</strong></div>
+    <div class="info-row"><span>👵 Paternal Grandmother</span><strong>{{ selectedUser.paternal_grandmother_name || '—' }}</strong></div>
+    <div class="info-row"><span>👴 Paternal Grandfather</span><strong>{{ selectedUser.paternal_grandfather_name || '—' }}</strong></div>
+    <div class="info-row"><span>👵 Maternal Grandmother</span><strong>{{ selectedUser.maternal_grandmother_name || '—' }}</strong></div>
+    <div class="info-row"><span>👴 Maternal Grandfather</span><strong>{{ selectedUser.maternal_grandfather_name || '—' }}</strong></div>
+  </div>
+
+  <div class="section">
+    <h6 class="section-title">Other Details</h6>
+
+    <div class="info-row">
+      <span>⭐ Favorites</span>
+      <strong>{{ selectedUser.favorite?.length || 0 }}</strong>
+    </div>
+
+    <div class="info-row">
+      <span>🌐 Account</span>
+      <strong>{{ selectedUser.account_type || '—' }}</strong>
+    </div>
+
+    <div class="info-row">
+      <span>📝 About</span>
+    </div>
+
+    <p class="desc-text">
+      {{ selectedUser.desc || '—' }}
+    </p>
+  </div>
+
+  <div class="section" *ngIf="selectedUser.family_images?.length">
+    <h6 class="section-title">Family Images</h6>
+
+    <div class="image-grid">
+      <img *ngFor="let img of selectedUser.family_images"
+           [src]="img" />
+    </div>
+  </div>
+
+</div>
+
+      <div class="detail-placeholder"
+           *ngIf="!selectedUser">
+        👈 Select a user to view profile
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+ -->
+
+
+ <div class="container-fluid py-4 dashboard-wrapper">
+
+  <!-- HEADER -->
+  <div class="text-center mb-4">
+    <h3 class="fw-bold text-primary">User Dashboard</h3>
+    <p class="text-muted small">Overview & detailed user information</p>
+  </div>
+
+  <!-- ========================= -->
+  <!-- STAT CARDS (SINGLE ROW) -->
+  <!-- ========================= -->
+  <div class="mb-4">
+
+    <div class="d-flex flex-nowrap overflow-auto gap-3 pb-2">
+
+      <div class="flex-shrink-0"
+        *ngFor="let card of [
+          {label:'Total', value:userCount?.total, icon:'bi-people', cls:'bg-primary'},
+          {label:'Members', value:userCount?.members, icon:'bi-person-check', cls:'bg-success'},
+          {label:'Non Members', value:userCount?.non_members, icon:'bi-person-x', cls:'bg-warning'},
+          {label:'Male', value:userCount?.male, icon:'bi-gender-male', cls:'bg-info'},
+          {label:'Female', value:userCount?.female, icon:'bi-gender-female', cls:'bg-danger'},
+          {label:'Active', value:userCount?.active, icon:'bi-check-circle', cls:'bg-success'},
+          {label:'Inactive', value:userCount?.inactive, icon:'bi-x-circle', cls:'bg-danger'}
+        ]">
+
+        <div class="card text-white shadow-sm stat-card"
+          [ngClass]="card.cls"
+          (click)="
+            card.label === 'Total' ? usersactiveorinactive('all') :
+            card.label === 'Active' ? usersactiveorinactive('active') :
+            card.label === 'Inactive' ? usersactiveorinactive('inactive') :
+            loadAllUsers()
+          ">
+
+          <div class="card-body text-center">
+            <div class="rounded-circle bg-white bg-opacity-25 d-inline-flex align-items-center justify-content-center mb-3"
+                 style="width:50px;height:50px;">
+              <i class="bi {{card.icon}} fs-5"></i>
+            </div>
+
+            <h4 class="fw-bold mb-1">{{ card.value || 0 }}</h4>
+            <small>{{ card.label }}</small>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- SEARCH -->
+  <div class="row mb-3">
+    <div class="col-12 col-md-6 col-lg-4 ms-auto">
+      <div class="input-group shadow-sm">
+        <!-- <span class="input-group-text bg-white">
+          <i class="bi bi-search"></i>
+        </span> -->
+        <input type="text"
+               class="form-control"
+               placeholder="Search users..."
+               [formControl]="searchControl">
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row g-4">
+
+<div class="col-12 col-lg-7 col-xl-8 overflow-auto" style="height: 100vh;">
+
+  <div class="row g-3">
+    
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-2"
+         *ngFor="let u of users"
+         (click)="viewProfile(u)">
+
+      <div class="card h-100 shadow-sm user-card border-0">
+        <div class="card-body text-center">
+
+          <img [src]="u.profile_pic || 'assets/profile1.webp'"
+               class="rounded-circle mb-3"
+               style="width:80px;height:80px;object-fit:cover;">
+
+          <h6 class="fw-semibold text-truncate">
+            {{ u.full_name || 'Unnamed User' }}
+          </h6>
+
+          <span class="badge mb-2"
+                [ngClass]="u.is_member === 'true' ? 'bg-success' : 'bg-secondary'">
+            {{ u.is_member === 'true' ? 'Member' : 'Non-Member' }}
+          </span>
+
+          <p class="small text-muted mb-1 text-truncate">
+            {{ u.last_seen_time }}
+          </p>
+
+          <p class="small text-muted mb-1 text-truncate">
+            {{ u.contact_number }}
+          </p>
+
+          <p class="small text-muted text-truncate">
+            {{ u.email }}
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="col-12 col-lg-5 col-xl-4">
+    <div *ngIf="selectedUser" 
+       class="card shadow-lg border-0 rounded-4 profile-card">
+
+    <div class="card-body text-center border-bottom">
+
+      <img [src]="selectedUser.profile_pic || 'assets/profile1.webp'"
+           class="rounded-circle shadow mb-3"
+           style="width:110px;height:110px;object-fit:cover;">
+
+      <h5 class="fw-bold mb-1">
+        {{ selectedUser.full_name || 'Unnamed User' }}
+      </h5>
+
+      <span class="badge px-3 py-2"
+            [ngClass]="selectedUser.is_member === 'true' ? 'bg-success' : 'bg-secondary'">
+        {{ selectedUser.is_member === 'true' ? 'Member' : 'Non-Member' }}
+      </span>
+
+      <p class="text-muted small mt-2 mb-0">
+        {{ selectedUser.gender }} • {{ selectedUser.marital_status || '—' }}
+      </p>
+
+    </div>
+
+    <div class="card-body profile-scroll">
+
+      <h6 class="fw-semibold text-primary mb-3">
+        Basic Information
+      </h6>
+
+      <div class="row small g-2 mb-4">
+
+        <div class="col-12">
+          <div class="d-flex justify-content-between border-bottom pb-2">
+            <span class="text-muted">Contact</span>
+            <strong>{{ selectedUser.contact_number || '—' }}</strong>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="d-flex justify-content-between border-bottom pb-2">
+            <span class="text-muted">Email</span>
+            <strong>{{ selectedUser.email || '—' }}</strong>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="d-flex justify-content-between border-bottom pb-2">
+            <span class="text-muted">Gotram</span>
+            <strong>{{ selectedUser.gotram || '—' }}</strong>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="d-flex justify-content-between border-bottom pb-2">
+            <span class="text-muted">Temples</span>
+            <strong>{{ selectedUser.temples_count || 0 }}</strong>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="d-flex justify-content-between border-bottom pb-2">
+            <span class="text-muted">User ID</span>
+            <strong>{{ selectedUser.id || '—' }}</strong>
+          </div>
+        </div>
+
+      </div>
+
+      <h6 class="fw-semibold text-primary mb-3">
+        Family Details
+      </h6>
+
+      <div class="row small g-2 mb-4">
+
+        <div class="col-12 col-md-6"
+             *ngFor="let field of [
+               {label:'Father', value:selectedUser.father_name},
+               {label:'Mother', value:selectedUser.mother_name},
+               {label:'Paternal Grandmother', value:selectedUser.paternal_grandmother_name},
+               {label:'Paternal Grandfather', value:selectedUser.paternal_grandfather_name},
+               {label:'Maternal Grandmother', value:selectedUser.maternal_grandmother_name},
+               {label:'Maternal Grandfather', value:selectedUser.maternal_grandfather_name}
+             ]">
+
+          <div class="border rounded-3 p-2 h-100 bg-light">
+            <div class="text-muted small">{{ field.label }}</div>
+            <strong>{{ field.value || '—' }}</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+      <h6 class="fw-semibold text-primary mb-3">
+        Other Details
+      </h6>
+
+      <div class="mb-3 small">
+
+        <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+          <span class="text-muted">Favorites</span>
+          <strong>{{ selectedUser.favorite?.length || 0 }}</strong>
+        </div>
+
+        <div class="d-flex justify-content-between border-bottom pb-2 mb-3">
+          <span class="text-muted">Account Type</span>
+          <strong>{{ selectedUser.account_type || '—' }}</strong>
+        </div>
+
+        <div>
+          <div class="text-muted mb-1">About</div>
+          <p class="small text-secondary mb-0">
+            {{ selectedUser.desc || 'No description available.' }}
+          </p>
+        </div>
+
+      </div>
+
+      <div *ngIf="selectedUser.family_images?.length">
+
+        <h6 class="fw-semibold text-primary mb-3">
+          Family Images
+        </h6>
+
+        <div class="row g-2">
+
+          <div class="col-4 col-md-3"
+               *ngFor="let img of selectedUser.family_images">
+
+            <img [src]="img"
+                 class="img-fluid rounded shadow-sm"
+                 style="height:90px;object-fit:cover;cursor:pointer;">
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- PLACEHOLDER -->
+  <div *ngIf="!selectedUser"
+       class="card shadow-sm text-center p-5 text-muted rounded-4">
+    👈 Select a user to view profile
+  </div>
+
+</div>
+
+
+  </div>
+
+</div>
+

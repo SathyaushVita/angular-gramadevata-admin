@@ -1,0 +1,148 @@
+<div class="container-fluid py-4">
+
+  <div class="row">
+
+    <!-- 🔹 LEFT SIDE - col-4 LIST -->
+    <div class="col-12 col-md-4 mb-3 mb-md-0">
+
+      <div class="card shadow-sm list-card">
+
+        <div class="card-header bg-warning text-white fw-bold">
+          Inactive Restaurants
+        </div>
+
+        <div class="list-group list-group-flush restaurant-list">
+
+          <div *ngIf="loading" class="text-center p-3">
+            <div class="spinner-border text-danger"></div>
+          </div>
+
+          <button
+            *ngFor="let restaurant of restaurants"
+            class="list-group-item list-group-item-action"
+            (click)="selectRestaurant(restaurant._id)"
+            [class.active]="selectedRestaurant?._id === restaurant._id">
+
+            <div class="d-flex align-items-center">
+
+              <img [src]="restaurant.image_location[0]"
+                   class="thumb-img me-2">
+
+              <div>
+                <div class="fw-bold">
+                  {{ restaurant.name }}
+                </div>
+                <small class="text-muted">
+                  {{ restaurant.relative_time }}
+                </small>
+              </div>
+
+            </div>
+
+          </button>
+          
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- 🔹 RIGHT SIDE - col-8 DETAILS -->
+    <div class="col-12 col-md-8">
+
+      <div *ngIf="detailLoading" class="text-center mt-5">
+        <div class="spinner-border text-danger"></div>
+      </div>
+
+<div *ngIf="selectedRestaurant" class="card shadow-lg detail-card p-3">
+
+  <div class="row">
+
+    <!-- ✅ LEFT SIDE (col-4) → Image -->
+    <div class="col-md-4 text-center">
+      <img 
+        [src]="selectedRestaurant.image_location[0]" 
+        class="img-fluid rounded shadow-sm"
+        style="max-height:300px; object-fit:cover;"
+      >
+    </div>
+
+    <!-- ✅ RIGHT SIDE (col-8) → Details -->
+    <div class="col-md-8">
+
+      <h3 class="fw-bold text-danger mb-3">
+        {{ selectedRestaurant.name }}
+      </h3>
+
+      <div class="row">
+
+        <div class="col-md-6">
+          <p><strong>Owner:</strong> {{ selectedRestaurant.owner_name }}</p>
+          <p><strong>Contact:</strong> {{ selectedRestaurant.contact_number }}</p>
+          <p><strong>Email:</strong> {{ selectedRestaurant.email_id }}</p>
+        </div>
+
+        <div class="col-md-6">
+          <p><strong>Address:</strong> {{ selectedRestaurant.address }}</p>
+          <p><strong>Created:</strong> 
+            {{ selectedRestaurant.created_at | date:'medium' }}
+          </p>
+
+          <a 
+            [href]="selectedRestaurant.map_location"
+            target="_blank"
+            class="btn btn-sm btn-outline-danger mt-2">
+            View Location
+          </a>
+        </div>
+
+      </div>
+
+      <div class="mt-4">
+        <span class="badge bg-danger p-2">
+          {{ selectedRestaurant.status }}
+        </span>
+      </div>
+
+
+      
+
+    </div>
+        <hr class="my-4">
+
+    <div class="row small text-muted">
+
+      <div class="col-md-4">
+        <strong>ID:</strong><br>
+        {{ selectedRestaurant._id }}
+      </div>
+
+      <div class="col-md-4">
+        <strong>User ID:</strong><br>
+        {{ selectedRestaurant.user_id || 'N/A' }}
+      </div>
+
+      <div class="col-md-4">
+        <strong>Village ID:</strong><br>
+        {{ selectedRestaurant.village_id || 'N/A' }}
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+      <div *ngIf="!selectedRestaurant && !detailLoading"
+           class="text-center text-muted mt-5">
+        Select a restaurant to view details
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

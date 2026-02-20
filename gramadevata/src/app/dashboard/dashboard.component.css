@@ -1,0 +1,32 @@
+.dashboard-wrapper {
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Stat card size */
+.stat-card {
+  width: 180px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Scrollbar for stat row */
+.d-flex::-webkit-scrollbar {
+  height: 6px;
+}
+
+.d-flex::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+/* User card hover */
+.user-card:hover {
+  transform: translateY(-4px);
+  transition: 0.2s;
+}

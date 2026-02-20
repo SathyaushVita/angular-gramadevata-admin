@@ -1,0 +1,209 @@
+<div class="container-fluid ">
+  <div class="row">
+
+    <div class="col-md-6 col-lg-6 col-xl-6 mt-5 hide-scrollbar"
+         style="overflow-y: scroll; height: 90vh; border-right: 1px solid #ddd;">
+
+
+      <section>
+        <div class="container-fluid card mt-3">
+          <div class="slider-div">
+            <input
+  type="text"
+  class="form-control"
+  placeholder="Search organization"
+  [(ngModel)]="searchTerm"
+  (ngModelChange)="onSearchChange($event)"
+>
+            <ng-container *ngIf="organizations">
+              <div class="row mt-3 g-1">
+                <div *ngFor="let organization of organizations"
+                     class="col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+
+                  <div class="image-container text-center" (click)="selectOrganization(organization._id)"
+                       style="cursor: pointer;">
+
+                    <img
+                      [src]="organization.org_logo && !organization.org_logo.includes('data not found')
+                             ?  organization.org_logo
+                             : '../../assets/images/noImageDataImage.jpg'"
+                      style="height: 20vh; width: 100%; border-radius: 10px;"
+                      class="img-fluid img-thumbnail"
+                      alt="image" 
+                      (error)="handleImageError($event)">
+
+                    <p class="my-2 text-truncate">{{ organization.organization_name }}</p>
+
+                  </div>
+
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+<div class="col-md-6 col-lg-6 col-xl-6 mt-5" style="height: 90vh; overflow-y: auto;">
+
+  <div *ngIf="selectedOrganization" class="card p-3 shadow-sm">
+
+    <div *ngIf="!editMode">
+<!--       
+      <div class="text-end mb-2">
+        <button class="btn btn-primary btn-sm" (click)="enableEdit()">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+      </div> -->
+
+      <div class="text-end mb-2 d-flex justify-content-end gap-2">
+
+  <!-- Edit Button -->
+  <button class="btn btn-primary btn-sm" (click)="enableEdit()">
+    <i class="fas fa-edit"></i> Edit
+  </button>
+
+<button class="btn btn-danger btn-sm" (click)="deleteOrganization(selectedOrganization._id)">
+  <i class="fas fa-trash"></i>
+</button>
+
+
+</div>
+
+
+      <h3>{{ selectedOrganization.organization_name }}</h3>
+
+      <img 
+        [src]="selectedOrganization.org_images" 
+        class="img-fluid rounded mb-3"
+        style="max-height: 250px; object-fit: cover;"
+      >
+
+      <p><strong>Established:</strong> {{ selectedOrganization.est_date }}</p>
+      <p><strong>Chairman:</strong> {{ selectedOrganization.chairman }}</p>
+      <p><strong>Location:</strong> {{ selectedOrganization.location }}</p>
+      <p><strong>Mission:</strong> {{ selectedOrganization.mission }}</p>
+      <p><strong>Details:</strong> {{ selectedOrganization.org_detail }}</p>
+
+      <a *ngIf="selectedOrganization.web_url" 
+         [href]="selectedOrganization.web_url" 
+         target="_blank">
+         Visit Website
+      </a>
+
+    </div>
+
+    <form *ngIf="editMode" [formGroup]="editForm">
+
+      <label>Organization Name</label>
+      <input type="text" class="form-control mb-2" formControlName="organization_name">
+
+      <label>Established Date</label>
+      <input type="text" class="form-control mb-2" formControlName="est_date">
+
+      <label>Chairman</label>
+      <input type="text" class="form-control mb-2" formControlName="chairman">
+
+
+    <label for="estBy">Established By *</label>
+    <input type="text" class="form-control mb-2" formControlName="est_by">
+
+      <label>Location</label>
+      <textarea class="form-control mb-2" formControlName="location"></textarea>
+
+      <label>Mission</label>
+      <textarea class="form-control mb-2" formControlName="mission"></textarea>
+
+      <label>Details</label>
+      <textarea class="form-control mb-2" formControlName="org_detail"></textarea>
+
+      <label>Website URL</label>
+      <input type="text" class="form-control mb-2" formControlName="web_url">
+
+      <label>Status:</label>
+        <select formControlName="status" class="form-control">
+          <option value="PENDING">PENDING</option>
+          <option value="SUCCESS">SUCCESS</option>
+        </select>
+    
+    
+      <div class="row m-2" >
+        <div class="col-md-6">
+            <div class="form-group">
+              <label for="category_id">Main Category </label>
+              <select id="category_id" formControlName="category_id"  class="form-control" [class.is-invalid]="editForm.get('category_id')?.touched && editForm.get('category_id')?.invalid" required>
+                <option value="" disabled selected>Select a Main Category </option>
+                <option *ngFor="let category of mainCategory" [value]="category.value" >
+                  {{ category.label }}
+                </option>
+              </select>
+            </div>
+          
+          </div>
+          <div class="col-md-6">
+            <div class="form-group" >
+              <label for="sub_category_id">Category </label>
+              <select id="sub_category_id" formControlName="sub_category_id" class="form-control" [class.is-invalid]="editForm.get('sub_category_id')?.touched && editForm.get('sub_category_id')?.invalid" required >
+                <option value="" disabled selected>Select a  Category </option>
+                <option *ngFor="let subcategory of subcategories" [value]="subcategory.value">
+                  {{ subcategory.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+      </div>
+
+      
+      
+
+<div class="profile-pic-container" (click)="triggerFileInput()">
+    <img  
+        [src]="profileImage ? 'data:image/jpeg;base64,' + profileImage : 'assets/profile1.webp'"
+        alt="Image"
+        class="profile-pic"
+        (error)="onImageError($event)"
+    />
+
+    <div class="overlay">
+        <span class="edit-icon">+</span>
+    </div>
+</div>
+
+<input
+    id="org_images"
+    type="file"
+    accept="image/*"
+    (change)="onFileChange($event)"
+    style="display: none;"
+/>
+
+
+      <div class="text-end">
+
+        <button class="btn btn-secondary btn-sm me-2" (click)="cancelEdit()" type="button">
+          Cancel
+        </button>
+
+        <button class="btn btn-success btn-sm" (click)="updateOrganization()" type="button">
+          Save Changes
+        </button>
+
+      </div>
+    </form>
+
+  </div>
+
+  <div *ngIf="!selectedOrganization" class="text-center text-muted mt-5">
+    <p>Select an organization to view details</p>
+  </div>
+
+</div>
+
+
+
+
+  </div>
+</div>
+

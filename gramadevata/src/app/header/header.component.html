@@ -1,0 +1,240 @@
+
+
+
+
+<nav class="navbar navbar-expand-lg fixed-top shadow-sm header-bg bg-dark">
+  <div class="container-fluid">
+
+    <button class="btn btn-outline-light d-lg-none me-2"
+            data-bs-toggle="collapse"
+            data-bs-target="#sidebarMenu">
+      ☰
+    </button>
+          <!-- <img
+        src="../../assets/Screenshot 2024-08-07 105609.png"
+        class="rounded-circle mb-3"
+        width="80"
+        height="80"
+        alt="Logo"
+      /> -->
+    <span class="navbar-brand fw-bold text-white">
+      Gramadevata Admin Panel
+    </span>
+
+    <ul class="navbar-nav ms-auto align-items-center">
+
+      <li class="nav-item" *ngIf="!authenticationService.isLoggedIn">
+        <button class="btn btn-warning text-white rounded-pill"
+                (click)="openSignupDialog()">
+          Sign In
+        </button>
+      </li>
+
+      <li class="nav-item dropdown" *ngIf="authenticationService.isLoggedIn">
+        <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
+           role="button"
+           data-bs-toggle="dropdown">
+          <img [src]="profileImageUrl"
+               class="rounded-circle"
+               width="36"
+               height="36"
+               (error)="handleProfileImageError($event)">
+          <span class="fw-semibold text-white">
+            {{ user?.full_name }}
+          </span>
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-end shadow">
+
+          <li>
+            <a class="dropdown-item text-danger" (click)="doLogout()">
+              🚪 Logout
+            </a>
+          </li>
+        </ul>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+
+
+  <div class="container-fluid">
+  <div class="row">
+
+<nav class="sidebar sidebar-fixed bg-dark" >
+  
+  <div class="sidebar-header text-center py-3">
+    <!-- <h5 class="fw-bold text-warning mb-0">🛕 Admin Panel</h5>
+    <small class="text-muted">Temple Management</small> -->
+  </div>
+
+  <ul class="nav flex-column px-3 py-3 gap-1 ">
+
+    <li class="nav-item ">
+      <a class="nav-link d-flex align-items-center gap-3 text-white"
+         routerLink="/dashboard"
+         [ngClass]="{ 'active': activeLink === 'dashboard' }"
+         (click)="navigateTodashboard()">
+        <span class="icon">🏠</span>
+        <span>Dashboard</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 text-white"
+         [ngClass]="{ 'active': activeLink === 'temples' }"
+         (click)="navigateTotemples()">
+        <span class="icon">🛕</span>
+        <span>Temples</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 text-white"
+         [ngClass]="{ 'active': activeLink === 'goshalas' }"
+         (click)="navigategoshala()">
+        <span class="icon">🐄</span>
+        <span>Goshalas</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 text-white"
+         [ngClass]="{ 'active': activeLink === 'events' }"
+         (click)="navigateevents()">
+        <span class="icon">📅</span>
+        <span>Events</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 text-white"
+         [ngClass]="{ 'active': activeLink === 'villages' }"
+         (click)="navigatevillages()">
+        <span class="icon">🏘</span>
+        <span>Villages</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 text-white"
+         [ngClass]="{ 'active': activeLink === 'tourism' }"
+         (click)="navigatetourism()">
+        <span class="icon">🌄</span>
+        <span>Tourism</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 text-white"
+         [ngClass]="{ 'active': activeLink === 'welfare' }"
+         (click)="navigatewelfarehome()">
+        <span class="icon">🏠</span>
+        <span>Welfare Home</span>
+      </a>
+    </li>
+
+
+<li class="nav-item">
+  <a class="nav-link d-flex align-items-center gap-3 text-white"
+     [ngClass]="{ 'active': activeLink === 'pooja-stores' }"
+     (click)="navigatepoojastores()">
+    <span class="icon">🛕</span>
+    <span>Pooja Stores</span>
+  </a>
+</li>
+
+
+
+<li class="nav-item">
+  <a class="nav-link d-flex align-items-center gap-3 text-white"
+     [ngClass]="{ 'active': activeLink === 'hospitals' }"
+     (click)="navigateclinics()">
+    <span class="icon">🏥</span>
+    <span>Clinics/Hospitals</span>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a class="nav-link d-flex align-items-center gap-3 text-white"
+     [ngClass]="{ 'active': activeLink === 'vet-hospital' }"
+     (click)="navigatevets()">
+    <span class="icon">🐾</span>
+    <span>VeterinaryHospitals</span>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a class="nav-link d-flex align-items-center gap-3 text-white"
+     [ngClass]="{ 'active': activeLink === 'Blood-banks' }"
+     (click)="navigatebloodbanks()">
+    <span class="icon">🩸</span>
+    <span>Blood Banks</span>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a class="nav-link d-flex align-items-center gap-3 text-white"
+     [ngClass]="{ 'active': activeLink === 'Tour-Operators' }"
+     (click)="navigatetouroperators()">
+    <span class="icon">✈️</span>
+    <span>Tour Operators</span>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a class="nav-link d-flex align-items-center gap-3 text-white"
+     [ngClass]="{ 'active': activeLink === 'Hotels' }"
+     (click)="navigatehotels()">
+    <span class="icon">🏨</span>
+    <span>Hotels</span>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a class="nav-link d-flex align-items-center gap-3 text-white"
+     [ngClass]="{ 'active': activeLink === 'Restaurants' }"
+     (click)="navigaterestaurants()">
+    <span class="icon">🍽️</span>
+    <span>Restaurants</span>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a class="nav-link d-flex align-items-center gap-3 text-white"
+     [ngClass]="{ 'active': activeLink === 'Tour Guides' }"
+     (click)="navigatetourguides()">
+    <span class="icon">🧑‍💼</span>
+    <span>Tour Guides</span>
+  </a>
+</li>
+
+    
+    <li class="my-3">
+      <hr>
+    </li>
+
+    <li class="nav-item">
+      <div class="dropdown">
+        <a class="nav-link d-flex align-items-center gap-3 dropdown-toggle text-white"
+           data-bs-toggle="dropdown">
+          <span class="icon">➕</span>
+          <span>Add More New Info</span>
+        </a>
+
+        <ul class="dropdown-menu w-100 shadow-sm ">
+          <li><a class="dropdown-item" (click)="navigateToadd('Temple-added-data')">🛕 Temple</a></li>
+          <li><a class="dropdown-item" (click)="navigateToadd('village-added-data')">🏘 Village</a></li>
+          <li><a class="dropdown-item" (click)="navigateToadd('event-added-data')">📅 Event</a></li>
+          <li><a class="dropdown-item" (click)="navigateToadd('goshala-added-data')">🐄 Goshala</a></li>
+        </ul>
+      </div>
+    </li>
+
+  </ul>
+</nav>
+
+
+  </div>
+</div>
